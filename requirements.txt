@@ -1,0 +1,5 @@
+requests
+robotframework-requests
+robotframework-databaselibrary
+robotframework-jsonlibrary
+--user psycopg2-binary

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot rpa="false" generated="20200129 20:09:58.595" generator="Robot 3.2b1 (Python 2.7.16 on darwin)">
+<suite source="/Users/adidarmawan/PycharmProjects/ApiAutomation/testCase/login.robot" id="s1" name="Login">
+<test id="s1-t1" name="Login_Success">
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>login_admin</arg>
+<arg>${base_url}</arg>
+</arguments>
+<msg timestamp="20200129 20:09:59.643" level="INFO">Creating Session using : alias=login_admin, url=http://34.87.100.36/v1/api-admin, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" endtime="20200129 20:09:59.643" starttime="20200129 20:09:59.642"></status>
+</kw>
+<kw name="Load JSON From File" library="JSONLibrary">
+<doc>Load JSON from file.</doc>
+<arguments>
+<arg>jsonFiles/LoginSuccess.json</arg>
+</arguments>
+<assign>
+<var>${json_object}</var>
+</assign>
+<msg timestamp="20200129 20:09:59.646" level="INFO">${json_object} = {u'password': u'kiasu123', u'email': u'twiscode@amartha.com'}</msg>
+<status status="PASS" endtime="20200129 20:09:59.646" starttime="20200129 20:09:59.644"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>${headers}</var>
+</assign>
+<msg timestamp="20200129 20:09:59.647" level="INFO">${headers} = {u'Content-Type': u'application/json'}</msg>
+<status status="PASS" endtime="20200129 20:09:59.647" starttime="20200129 20:09:59.646"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>login_admin</arg>
+<arg>${uri}</arg>
+<arg>data=${json_object}</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<msg timestamp="20200129 20:09:59.648" level="INFO">POST Request using : uri=auth/login, files=None, params=None, timeout=None, allow_redirects=True
+headers={'Connection': 'keep-alive', u'Content-Type': u'application/json', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'User-Agent': 'python-requests/2.22.0'} 
+data={"password": "kiasu123", "email": "twiscode@amartha.com"} 
+json=None</msg>
+<msg timestamp="20200129 20:10:59.947" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20200129 20:10:59.947" starttime="20200129 20:09:59.647"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${resp.json()['data']}</arg>
+<arg>token</arg>
+</arguments>
+<assign>
+<var>${getAccessToken}</var>
+</assign>
+<msg timestamp="20200129 20:10:59.948" level="INFO">${getAccessToken} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODA1NjI2NTksImp0aSI6ImV5SmhiR2NpT2lKU1UwRXhYelVpTENKbGJtTWlPaUpCTVRJNFEwSkRMVWhUTWpVMkluMC5BSC10SDNPSDdwaWNKUTA2ek5wWE9tdW41MzVnMnFMMC1Ub1BGVXE5MlBCMGN...</msg>
+<status status="PASS" endtime="20200129 20:10:59.949" starttime="20200129 20:10:59.947"></status>
+</kw>
+<kw name="Create File" library="OperatingSystem">
+<doc>Creates a file with the given content and encoding.</doc>
+<arguments>
+<arg>data/accessToken.txt</arg>
+<arg>${getAccessToken}</arg>
+</arguments>
+<msg timestamp="20200129 20:10:59.951" html="yes" level="INFO">Created file '&lt;a href="file:///Users/adidarmawan/PycharmProjects/ApiAutomation/data/accessToken.txt"&gt;/Users/adidarmawan/PycharmProjects/ApiAutomation/data/accessToken.txt&lt;/a&gt;'.</msg>
+<status status="PASS" endtime="20200129 20:10:59.951" starttime="20200129 20:10:59.949"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${resp.json()['stat_code']}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20200129 20:10:59.953" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20200129 20:10:59.953" starttime="20200129 20:10:59.952"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${resp.json()['stat_msg']}</arg>
+<arg>Success</arg>
+</arguments>
+<status status="PASS" endtime="20200129 20:10:59.955" starttime="20200129 20:10:59.954"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${resp.json()['pagination']}</arg>
+<arg>${null}</arg>
+</arguments>
+<status status="PASS" endtime="20200129 20:10:59.956" starttime="20200129 20:10:59.955"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${resp.json()['data']['token']}</arg>
+<arg>${getAccessToken}</arg>
+</arguments>
+<status status="PASS" endtime="20200129 20:10:59.958" starttime="20200129 20:10:59.957"></status>
+</kw>
+<status status="PASS" endtime="20200129 20:10:59.959" critical="yes" starttime="20200129 20:09:59.641"></status>
+</test>
+<status status="PASS" endtime="20200129 20:10:59.960" starttime="20200129 20:09:58.599"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="0" pass="1">Critical Tests</stat>
+<stat fail="0" pass="1">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="0" id="s1" name="Login" pass="1">Login</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
